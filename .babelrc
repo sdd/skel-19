@@ -1,6 +1,6 @@
 {
   "presets": [
-    ["env", { "targets": { "browsers": ["chrome 57"] } }],
+    ["env", { "targets": { "browsers": ["chrome 66"] } }],
     "stage-0",
     "react"
   ],

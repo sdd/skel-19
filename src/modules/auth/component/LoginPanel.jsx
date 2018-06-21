@@ -1,20 +1,21 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { identity } from 'lodash';
 import { initiateLogin } from '../actions';
-import { loginPanelSelector } from '../selectors';
 
 export class LoginPanel extends Component {
 
     static propTypes = {
-        initiateLogin: PropTypes.func.required
+        initiateLogin: PropTypes.func.isRequired
     };
 
     render () {
-
-        const { initiateLogin } = props;
+        const { initiateLogin } = this.props;
 
         return <div className="LoginPanel">
-            <button onClick={() => initiateLogin('twitter')}>
+            <button
+                onClick={() => initiateLogin('twitter')} >
                 Login via Twitter
             </button>
         </div>
@@ -22,6 +23,6 @@ export class LoginPanel extends Component {
 }
 
 export default connect(
-    loginPanelSelector,
+    identity,
     { initiateLogin }
 )(LoginPanel)

@@ -1,0 +1,34 @@
+/**
+ * Color names
+ *
+ * Type: Map
+ */
+
+$iota-utils-color-names: $colors;
+
+
+/**
+ * Namespace classes
+ *
+ * Type: String
+ */
+
+$iota-utils-color-namespace: 'color-';
+
+
+@import 'node_modules/iotacss/utilities/color';
+
+// Color contrast
+@function text-color-to-contrast-with($color) {
+    $r: red($color);
+    $g: green($color);
+    $b: blue($color);
+
+    $perceptual-luminance: (($r * 299) + ($g * 587) + ($b * 114)) / 1000;
+
+    @if ($perceptual-luminance >= $contrast-text-threshold) {
+        @return $contrast-text-dark;
+    } @else {
+        @return $contrast-text-light;
+    }
+}

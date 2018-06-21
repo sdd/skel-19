@@ -43,7 +43,10 @@ export const retryingNetworkRequestSaga = function* (apiMethod, ...apiReqArgs) {
     let attemptNumber = 1;
     let response = {};
     do {
-        if (attemptNumber > 1) { yield call(delay, RETRY_INTERVAL); }
+        if (attemptNumber > 1) {
+            // TODO: exponential backoff
+            yield call(delay, RETRY_INTERVAL);
+        }
         response = yield call(networkRequestSaga, apiMethod, ...apiReqArgs);
         attemptNumber++;
     } while (!response.networkSuccess || (response.error && response.error.output.statusCode >= 500));

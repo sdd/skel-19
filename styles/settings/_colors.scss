@@ -1,0 +1,18 @@
+// Variables to be used by all components
+$color-black  : '#0D2A4A';
+$color-grey   : '#7A8599';
+$color-white  : '#FEFEFE';
+
+// A map for the shared color and background color
+// utility options
+$colors: (
+    black : $color-black,
+    grey  : $color-grey,
+    white : $color-white
+);
+
+$theme-colors: (
+    blue: blue,
+    green: green,
+    red: red
+)

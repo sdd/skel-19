@@ -1,7 +1,7 @@
 import component from './component';
 
 const routes = [
-    { path: '/auth', component }
+    { path: '/login', component }
 ];
 
 export default routes;

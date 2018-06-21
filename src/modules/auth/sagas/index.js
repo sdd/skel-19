@@ -1,56 +1,107 @@
-'use strict';
+import { get } from 'lodash';
 import { call, put, take } from 'redux-saga/effects';
-import { goto } from 'react-router-redux';
 
 import { NETWORK } from '../../app/constants';
 import { retryingNetworkRequestSaga } from '../../app/sagas';
 
 import * as AUTH from '../constants';
-import { loggedInUserProfileRetrieved } from '../actions';
+import { loggedInUserProfileRetrieved, logoutSucceeded } from '../actions';
 import API from '../api';
 
 export default config => function* userLifecycleSaga () {
 
     const api = API(config);
 
-    let user;
-    user = yield call(retryingNetworkRequestSaga, api.me);
-
     do {
+        let response = yield call(retryingNetworkRequestSaga, api.me);
+        let user = response && response.result;
+
         if (!user) {
 
-            // if we are not logged in, log in
-            yield put(goto('/login'));
+            // if we are not logged in, wait for a login attempt
             const loginAction = yield take(AUTH.LOGIN.REQUEST);
 
-            const { meta: { channel } = {} } = loginAction;
+            const { payload: channel = '' } = loginAction;
 
             if (channel === 'local') {
                 // TODO: username / password auth goes here
             } else {
 
-                const { redirectUrl } = yield call(
+                const response = yield call(
                     retryingNetworkRequestSaga, api.login, channel
                 );
 
-                yield call(window.open, redirectUrl);
+                const redirectUrl = _.get(response, ['result', 'redirectUrl']);
 
-                const loginResult = yield take(AUTH.LOGIN.RESPONSE);
+                if (redirectUrl) {
+                    yield call(window.open, redirectUrl);
 
-                if (loginResult.success) {
-                    user = loginResult.user;
+                    const loginResult = yield call(loginMessageSource);
+
+                    if (loginResult.payload) {
+                        user = loginResult.payload;
+                        yield put(loggedInUserProfileRetrieved({
+                            result: user,
+                            networkSuccess: true
+                        }));
+                    }
+                } else {
+                    console.error(response);
                 }
             }
         } else {
-            yield put(loggedInUserProfileRetrieved(user));
+            yield put(loggedInUserProfileRetrieved(response));
 
-            // If we are logged in, wait fpr a logout request or an auth failure
+            // we are logged in. wait fpr a logout request or an auth failure
             const { type } = yield take([ AUTH.LOGOUT.REQUEST, NETWORK.ERROR.AUTH ]);
+
             if (type === AUTH.LOGOUT.REQUEST) {
-                yield call(retryingNetworkRequestSaga, api.logout);
+                const response = yield call(retryingNetworkRequestSaga, api.logout);
+                if (get(response, ['result', 'loggedOut'])) {
+                    user = null;
+                    yield put(logoutSucceeded());
+                } else {
+                    // TODO: logout failed message
+                }
+
+            } else {
+                // TODO: authentication error notification
+                user = null;
             }
-            user = null;
         }
 
     } while (true);
 };
+
+function loginMessageSource() {
+    return new Promise((resolve) => {
+
+        const handler = event => {
+            // console.log(event);
+
+            if (event.origin !== window.location.origin) {
+                // console.info('ERROR: bad postMessage origin, ' + event.origin);
+                return;
+            }
+
+            let message;
+            try {
+                message = JSON.parse(event.data);
+            } catch(e) {
+                // console.info('postMessage did not parse as JSON');
+                return;
+            }
+
+            if (message.type !== AUTH.LOGIN.RESPONSE) {
+                // console.info('Ignoring non-login message');
+                return;
+            }
+
+            window.removeEventListener('message', handler);
+            // console.info('SUCCESS');
+            resolve(message);
+        };
+
+        window.addEventListener('message', handler);
+    });
+}

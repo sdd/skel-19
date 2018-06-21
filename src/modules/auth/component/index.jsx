@@ -1,20 +1,19 @@
 import React, { Component } from 'react';
-import { initiateLogin } from '../actions';
+import { Route } from 'react-router';
+import LoginPanel from './LoginPanel';
 
 export default class AuthView extends Component {
 
-    onClickLogin = () => {
-        const { initiateLogin } = this.props;
-
-        initiateLogin();
-    };
-
     render () {
-        return <div className="AuthView">
-            <button onClick={ this.onCLickLogin }>
-                Log in
-            </button>
-        </div>
+        const { match } = this.props;
+        return (
+            <div className="AuthView">
+                <Route
+                    path={ `/login` }
+                    component={ LoginPanel }
+                />
+            </div>
+        );
     }
 }
 
