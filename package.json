@@ -114,6 +114,7 @@
     "iotacss": "^1.6.0",
     "isomorphic-fetch": "^2.2.1",
     "react-jss": "^8.6.1",
+    "react-seal": "file:../react-seal",
     "reset-jss": "^1.0.0",
     "typeface-roboto": "^0.0.54"
   }

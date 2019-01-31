@@ -14,15 +14,31 @@ const RETRY_INTERVAL = 5000; // 5 seconds
 
 export const networkRequestSaga = function* (apiMethod, ...apiReqArgs) {
     let result;
+    let statusCode;
     let error;
     let networkSuccess = true;
 
+    const axiosRequestConfig = yield call(apiMethod, ...apiReqArgs);
+
+    yield put(networkRequestStarted());
     try {
-        yield put(networkRequestStarted());
-        result = yield call(apiMethod, ...apiReqArgs);
+        const axiosResponse = yield call(ax.request, axiosRequestConfig);
+        
+        result = axiosResponse.data;
+        statusCode = axiosResponse.status;
     } catch (e) {
-        networkSuccess = !!e.output.statusCode;
-        error = e;
+        if (e.response) {
+            // network request succeeded but got a >299 response 
+            networkSuccess = true;
+            error = e.response.data;
+            statusCode = e.response.status;
+        } else if (e.request) {
+            // request made but no response
+            networkSuccess = false;
+        } else {
+            // error in request setup
+            error = e.message;
+        }
     } finally {
         yield put(networkRequestFinished());
     }
