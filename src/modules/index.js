@@ -1,12 +1,17 @@
-import { spawn } from 'redux-saga/effects';
+import { all, call, spawn } from 'redux-saga/effects';
+import { isFunction, property } from 'lodash';
+import 'typeface-roboto';
+
 import config from '../config';
+import { getModuleRootSagas, spawnAll } from './util';
 
-export * as app from './app';
-export * as auth from './auth';
-export * as exampleModule from './example';
+import * as app from './app';
+import * as auth from './auth';
+import * as exampleModule from './example';
 
-import { sagas as authRootSaga } from './auth';
+const modules = { app, auth, exampleModule };
+export default modules;
 
-export const rootSaga = function* () {
-    yield spawn(authRootSaga(config));
-};
+const sagas = getModuleRootSagas(modules);
+export const rootSaga = spawnAll(sagas, [config]);
+

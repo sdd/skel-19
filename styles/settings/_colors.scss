@@ -3,16 +3,29 @@ $color-black  : '#0D2A4A';
 $color-grey   : '#7A8599';
 $color-white  : '#FEFEFE';
 
+$color-theme-bg: rgba(68, 52, 79, 1);
+$color-theme-primary: rgba(194, 249, 112, 1);
+$color-theme-secondary: rgba(152, 166, 212, 1);
+$color-theme-3: rgba(211, 252, 213, 1);
+$color-theme-4: rgba(86, 77, 128, 1);
+
 // A map for the shared color and background color
 // utility options
 $colors: (
     black : $color-black,
     grey  : $color-grey,
-    white : $color-white
+    white : $color-white,
+    purple: $color-theme-bg,
+    lime: $color-theme-primary,
+    lilac: $color-theme-secondary,
+    aqua: $color-theme-3,
+    plum: $color-theme-4
 );
 
 $theme-colors: (
-    blue: blue,
-    green: green,
-    red: red
+    bg: $color-theme-bg,
+    primary: $color-theme-primary,
+    secondary: $color-theme-secondary,
+    c3: $color-theme-3,
+    c4: $color-theme-4
 )

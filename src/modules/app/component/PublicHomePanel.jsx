@@ -10,7 +10,7 @@ export default class PublicHomePanel extends Component {
     render() {
         return (
             <div>
-                <h2>SyncShout - distributed decision making</h2>
+                <h1 className="u-text-center u-mb">SyncShout - distributed decision making</h1>
                 <LoginPanel />
             </div>
         );

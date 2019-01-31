@@ -1,14 +1,21 @@
 import { get } from 'lodash';
 import { call, put, take } from 'redux-saga/effects';
-
+import { spawnAll } from '../../util';
 import { NETWORK } from '../../app/constants';
-import { retryingNetworkRequestSaga } from '../../app/sagas';
+import { retryingNetworkRequestSaga } from '../../app/sagas/util';
 
 import * as AUTH from '../constants';
 import { loggedInUserProfileRetrieved, logoutSucceeded } from '../actions';
 import API from '../api';
+import config from '../../../config';
 
-export default config => function* userLifecycleSaga () {
+
+export default spawnAll([
+    userLifecycleSaga
+]);
+
+
+function* userLifecycleSaga() {
 
     const api = API(config);
 

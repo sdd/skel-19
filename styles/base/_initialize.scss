@@ -16,7 +16,7 @@ $iota-base-initialize-box-sizing: 'border-box';
  * Type: Boolean
  */
 
-$iota-base-initialize-heading-size: false;
+$iota-base-initialize-heading-size: true;
 
 
 /**
@@ -40,3 +40,8 @@ $iota-base-initialize-html5-form-elements: true;
 
 
 @import 'node_modules/iotacss/base/initialize';
+
+body {
+    background-color: $color-theme-bg;
+    color: $color-theme-primary;
+}

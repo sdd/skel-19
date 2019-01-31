@@ -22,8 +22,8 @@ const storeEnhancers = [
     )
 ];
 
-if (window.devToolsExtension) {
-    storeEnhancers.push(window.devToolsExtension());
+if (window.__REDUX_DEVTOOLS_EXTENSION__) {
+    storeEnhancers.push(window.__REDUX_DEVTOOLS_EXTENSION__());
 }
 
 export const store = compose(...storeEnhancers)(createStore)(reducer);

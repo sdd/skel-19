@@ -1,9 +1,12 @@
 import { describe } from 'ava-spec';
 import { expect } from 'chai';
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, mount, configure } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
 
-import App from './index';
+import { App } from './index';
+
+configure({ adapter: new Adapter() });
 
 describe('App component', it => {
 

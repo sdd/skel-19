@@ -1,11 +1,9 @@
-import moduleActions from './actions';
+export * as actions from './actions';
 import ExampleContainer from './components/ExampleContainer';
-import moduleReducer from './reducers';
+export reducer from './reducers';
 
 const path = '/example';
 
-export const actions = moduleActions;
-export const reducer = moduleReducer;
 export const components = { ExampleContainer };
 export const routes = [{ path, component: ExampleContainer }];
 

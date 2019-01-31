@@ -1,4 +1,4 @@
-import * as modules from './modules';
+import modules from './modules';
 
 //TODO: move this entire file into store?
 

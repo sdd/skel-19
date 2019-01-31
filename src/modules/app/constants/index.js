@@ -1,3 +1,8 @@
+export const createAsyncConstants = base => ({
+    REQUEST: `${base}.REQUEST`,
+    RESPONSE: `${base}.RESPONSE`
+});
+
 export const NETWORK = {
     ERROR: {
         AUTH: 'NETWORK.ERROR.AUTH'
@@ -11,4 +16,9 @@ export const NETWORK = {
         CONNECTED: 'NETWORK.STATUS.CONNECTED',
         DISCONNECTED: 'NETWORK.STATUS.DISCONNECTED'
     }
+};
+
+export const ORGANISATION = {
+    GET_ALL_FOR_USER: createAsyncConstants('APP.ORG.GET_ALL_FOR_USER'),
+    CREATE: createAsyncConstants('APP.ORG.CREATE')
 };

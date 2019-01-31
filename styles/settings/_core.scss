@@ -7,7 +7,7 @@
  * Type: Unitless Number / List
  */
 
-$iota-global-columns: 2, 3, 6;
+$iota-global-columns: 2, 3;
 
 
 /**
@@ -43,7 +43,7 @@ $iota-global-gutter-default: 10px;
  * Type: Boolean
  */
 
-$iota-global-flex: false;
+$iota-global-flex: true;
 
 
 /**
@@ -66,8 +66,7 @@ $iota-global-rtl: false;
  */
 
 $iota-global-breakpoints: (
-  sm  : "screen and ( min-width: 768px )",
-  md  : "screen and ( min-width: 1000px )"
+  sm  : "screen and ( min-width: 768px )"
 );
 
 

@@ -1,5 +1,5 @@
 import { flatten, get, mapValues, values } from 'lodash';
-import * as modules from './modules';
+import modules from './modules';
 
 const moduleRoutes = mapValues(modules, x => get(x, ['rootRoutes'], []));
 

@@ -6,8 +6,8 @@ const full = ({
             data,
             isLoading,
             error
-        }
-    }
+        } = {}
+    } = {}
 }) => ({
     user: {
         data, isLoading, error

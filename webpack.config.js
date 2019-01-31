@@ -13,7 +13,7 @@ module.exports = {
     entry: {
         main: [
             "./src",
-            "./styles/main.scss"
+//            "./styles/main.scss"
         ]
     },
     output: { filename: "bundle.js", path: "/Users/scotty/workspace/skel17-client/dist", publicPath: "/" },
@@ -65,17 +65,17 @@ module.exports = {
             filename: "[name]--[md5:contenthash:hex:8].css",
             allChunks: true
         }),
-        new GoogleFontsPlugin({
-            fonts: [
-                { family: "Lato" },
-                { family: "Raleway", variants: [ "400", "400i, 700" ], subsets: ["latin-ext"] }
-            ]
-            /* ...options */
-        }),
+        // new GoogleFontsPlugin({
+        //     fonts: [
+        //         { family: "Lato" },
+        //         { family: "Raleway", variants: [ "400", "400i, 700" ], subsets: ["latin-ext"] }
+        //     ]
+        //     /* ...options */
+        // }),
         new HtmlWebpackPlugin({}),
         new webpack.NamedModulesPlugin(),
         new webpack.LoaderOptionsPlugin({
-            debug: true
+            //debug: true
         })
     ],
     devtool: "cheap-module-source-map"
