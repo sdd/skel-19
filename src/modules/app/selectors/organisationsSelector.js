@@ -1,10 +1,12 @@
 import { createSelector } from 'reselect';
 
 const full = ({
-    organisations: {
-        data,
-        isLoading,
-        error
+    app: {
+        organisations: {
+            data,
+            isLoading,
+            error
+        } = {}
     } = {}
 }) => ({
     organisations: {

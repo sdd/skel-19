@@ -30,7 +30,9 @@ export class HomePanel extends Component {
     }
 
     handleClickCreate = () => {
-        this.props.createOrganisation(this.state.newOrganisationName);
+        this.props.createOrganisation({
+            name: this.state.newOrganisationName
+        });
     }
 
     render() {
@@ -48,7 +50,7 @@ export class HomePanel extends Component {
                 <h2>My Organizations</h2>
                 { organisations.length ? (
                     <Layout item container>
-                        {organisations.map(org => (<Layout item>
+                        {organisations.map(org => (<Layout key={org.id} item>
                             <Button>{ org.name }</Button>
                         </Layout>)) }
                     </Layout>

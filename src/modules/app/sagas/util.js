@@ -1,4 +1,4 @@
-'use strict';
+import axios from 'axios';
 import { delay } from 'redux-saga';
 import { all, call, take, put, takeEvery } from 'redux-saga/effects';
 import {
@@ -9,8 +9,13 @@ import {
 import {
     NETWORK
 } from '../constants';
+import config from '../../../config';
 
 const RETRY_INTERVAL = 5000; // 5 seconds
+
+const ax = axios.create({
+    baseURL: config.BASE_URL
+});
 
 export const networkRequestSaga = function* (apiMethod, ...apiReqArgs) {
     let result;
@@ -64,7 +69,7 @@ export const retryingNetworkRequestSaga = function* (apiMethod, ...apiReqArgs) {
         }
         response = yield call(networkRequestSaga, apiMethod, ...apiReqArgs);
         attemptNumber++;
-    } while (!response.networkSuccess || (response.error && response.error.output.statusCode >= 500));
+    } while (!response.networkSuccess || (response.error && response.error.statusCode >= 500));
 
     return response;
 };
@@ -72,16 +77,21 @@ export const retryingNetworkRequestSaga = function* (apiMethod, ...apiReqArgs) {
 export function createAsyncRequestActionSaga(apiFn, asyncActionCreator) {
     const saga = function* (action) {
         const { payload } = action;
-        const { error, result } = yield call(
+        const {
+            error,
+            networkSuccess,
+            result
+        } = yield call(
             networkRequestSaga,
             apiFn,
             payload
         );
 
-        const responseAction = {
-            type: asyncActionCreator.RESPONSE,
-            payload: error || result
-        };
+        const responseAction = asyncActionCreator.RESPONSE({
+            error,
+            networkSuccess,
+            result
+        });
 
         yield put(responseAction);
     };

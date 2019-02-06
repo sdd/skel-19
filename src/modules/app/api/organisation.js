@@ -1,11 +1,11 @@
-import { ax } from './axiosInstance';
-
 const BASE = '/organisations';
 
 const PATH_CREATE = '/';
 
 export function listForUser() {
-    console.log('listforuser');
+    return {
+        url: BASE
+    };
 }
 
 export function create(data) {
@@ -13,5 +13,5 @@ export function create(data) {
         method: 'POST',
         url: BASE + PATH_CREATE,
         data
-    );
+    };
 }
