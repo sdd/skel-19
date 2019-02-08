@@ -1,8 +1,9 @@
 import '@babel/polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
-
+import 'typeface-roboto';
 import { create as createJss } from 'jss';
+
 import preset from 'jss-preset-default';
 import { JssProvider } from 'react-jss';
 

@@ -1,5 +1,3 @@
-import { all, call, spawn } from 'redux-saga/effects';
-import { isFunction, property } from 'lodash';
 import 'typeface-roboto';
 
 import config from '../config';
@@ -14,4 +12,5 @@ export default modules;
 
 const sagas = getModuleRootSagas(modules);
 export const rootSaga = spawnAll(sagas, [config]);
+
 
