@@ -25,7 +25,7 @@ export default class RRModuleRegistry {
     }
 
     getReducers() {
-        return Object.entries().reduce(
+        return Object.entries(this.modules).reduce(
             (acc, [name, { reducer, stateKey }]) => ({
                 ...acc,
                 ...(reducer ? { [stateKey || name]: reducer } : null)
@@ -35,7 +35,7 @@ export default class RRModuleRegistry {
     }
 
     getRootRoutes() {
-        return _.flatten(_.map(_.keys(this.modules), 'rootRoutes'));
+        return _.filter(_.flatten(_.map(_.values(this.modules), 'rootRoutes')));
     }
 }
 

@@ -3,12 +3,9 @@ import { routerReducer, routerMiddleware } from 'react-router-redux'
 import createHistory from 'history/createBrowserHistory'
 import createSagaMiddleware from 'redux-saga';
 
-import { rootSaga } from './modules';
-import appReducers from './reducers';
-
 export const history = createHistory();
 
-const reducer = combineReducers({
+const createReducer = appReducers => combineReducers({
     ...appReducers,
     router: routerReducer
 });
@@ -26,7 +23,12 @@ if (window.__REDUX_DEVTOOLS_EXTENSION__) {
     storeEnhancers.push(window.__REDUX_DEVTOOLS_EXTENSION__());
 }
 
-export const store = compose(...storeEnhancers)(createStore)(reducer);
+export const createStoreFromReducer = appReducers => {
+    const reducer = createReducer(appReducers);
+    const store = compose(...storeEnhancers)(createStore)(reducer);
+    const runSaga = sagaMiddleware.run;
+    return { store, runSaga };
+}
 
 // Enable Webpack hot module replacement for reducers
 if (module.hot) {
@@ -35,4 +37,4 @@ if (module.hot) {
     });
 }
 
-sagaMiddleware.run(rootSaga);
+export const runSaga = sagaMiddleware.run;

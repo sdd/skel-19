@@ -17,4 +17,5 @@ export default class RRModule {
     components = {};
 
     routes = [];
+    rootRoutes = [];
 }
